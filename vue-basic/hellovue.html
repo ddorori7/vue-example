@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue.js Example</title>
+    <!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <!-- Vue 렌더링 영역 선언 -->
+    <div id="app">{{ message }}</div>
+
+    <!-- Vanilla JavaScript로 DOM 다루기 -->
+    <script>
+      //   document.getElementById("app").innerHTML = "Hello, Vanilla JS";
+    </script>
+
+    <!-- Vue 인스턴스 만들기 -->
+    <script>
+      var app = new Vue({
+        el: "#app", // 뷰 렌더링 영역 셀렉터 -> Vue에 마운드시킬 HTMLElement
+        data: {
+          message: "Hello, Vue.js",
+        },
+        // LifeCycle Hooks
+        beforeCreate: function () {
+          //  인스턴스 생성 이전 단계의 라이프사이클
+          console.log("beforeCreate");
+          console.log("data:", this.message);
+          // 아직 Model이 정의되지 않음
+        },
+        created: function () {
+          // 인스턴스가 생성된 단계
+          console.log("created");
+          console.log("data:", this.message);
+          // 이제 모델을 연동시킬 수 있다.
+          this.message = "Model Can Change";
+          // 이 단계는 API 서버 등에서 내용을 불러올 수 있다.
+          console.log("el:", this.$el); // 아직 DOM에 부착되지 않음.(el: undefined)
+          // UI관련 작업에 적합하지 않음
+        },
+        mounted: function () {
+          console.log("mounted");
+          console.log("el:", this.$el);
+          // el: <div id="app">Model Can Change</div>
+          // el요소가 바인딩 되었다.
+          // DOM 관련 작업을 수행할 수 있다.
+          console.log("DOM:", this.$el.innerText); // DOM: Model Can Change
+        },
+        updated: function () {
+          console.log("updated:", this.message);
+          // app.message = "Hello, Vue.js" -> 콘솔에 입력 엔터!
+          // updated: Hello, Vue.js
+          // 'Hello, Vue.js'
+        },
+      });
+    </script>
+  </body>
+</html>
