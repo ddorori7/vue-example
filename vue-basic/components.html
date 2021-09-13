@@ -12,7 +12,13 @@
     <!-- Vue 렌더링 영역 -->
     <div id="app">
       <global-header></global-header>
-      <local-component></local-component>
+      <h2>{{content}}</h2>
+      <!-- 부모 -> 자식 데이터 내려보내기: props를 이용 -->
+      <!-- 이벤트 연결: v-on:이벤트 명 -->
+      <local-component
+        v-bind:propsdata="message"
+        v-on:send-msg="rcvMsg"
+      ></local-component>
       <local-component2></local-component2>
     </div>
 
@@ -29,17 +35,40 @@
 
       //    지역 컴포넌트 선언
       var cmp1 = {
-        template: "<div><h2>Local Component</h2></div>",
+        props: ["propsdata"], // 부모로부터 전달 받은 props 데이터
+        // template: "<div><h2>Local Component</h2></div>",
+        template: `<div><h2>Local Component</h2>
+                    <h3>{{propsdata}}</h3>
+                    <button v-on:click="sendMsg">Send to Parent</button>
+                    </div>`,
+        methods: {
+          // button click -> sendMsg 호출
+          sendMsg: function () {
+            // send-msg 이벤트를 발생시킨다.
+            this.$emit("send-msg", "Message form Child");
+          },
+        },
       };
 
       //    새 인스턴스 생성
       var app = new Vue({
         el: "#app",
+        data: {
+          content: "Vue Instance",
+          message: "Message From Parent", // 자식에게 보낼 데이터
+        },
         components: {
           //  지역 컴포넌트 등록
           "local-component": cmp1,
           "local-component2": {
             template: "<div><h2>Local Component2</h2></div>",
+          },
+        },
+        methods: {
+          rcvMsg: function (message) {
+            console.log(event);
+            console.log("자식으로부터 신호가 전달되었습니다.");
+            alert("자식으로부터 전달된 메시지: " + message);
           },
         },
       });
