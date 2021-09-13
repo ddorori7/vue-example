@@ -65,6 +65,9 @@ var app6 = new Vue({
 Vue.component("todo-item", {
   template: "<li>할일 항목 하나입니다.</li>",
 });
+var appEx = new Vue({
+  el: "#app-ex",
+});
 // 그러나 이것은 todo - item 컴포넌트를 사용할 때마다
 // 똑같은 텍스트를 렌더링할뿐 무언가가 부족합니다.
 // 부모 영역의 데이터를 자식 컴포넌트에 전달할 수 있어야 합니다.
@@ -79,3 +82,19 @@ Vue.component("todo-item", {
 });
 // 이제 v-bind를 사용하여
 // 각각의 반복되는 todo - item 컴포넌트에 전달할 수 있습니다.
+
+Vue.component("todo-item", {
+  props: ["todo"],
+  template: "<li>{{ todo.text }}</li>",
+});
+
+var app7 = new Vue({
+  el: "#app-7",
+  data: {
+    groceryList: [
+      { id: 0, text: "Vegetables" },
+      { id: 1, text: "Cheese" },
+      { id: 2, text: "Whatever else humans are supposed to eat" },
+    ],
+  },
+});
