@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>시작하기</title>
+    <!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <!-- 선언적 렌더링 -->
+    <div id="app">{{message}}</div>
+
+    <div id="app-2">
+      <span v-bind:title="message"
+        >내 위에 잠시 마우스를 올리면 동적으로 바인딩 된 title을 볼 수
+        있습니다!</span
+      >
+    </div>
+
+    <!-- 조건문과 반복문 -->
+    <div id="app-3"><p v-if="seen">이제 나를 볼 수 있어요</p></div>
+
+    <div id="app-4">
+      <ol>
+        <li v-for="todo in todos">{{ todo.text }}</li>
+      </ol>
+    </div>
+
+    <!-- 사용자 입력 핸들링 -->
+    <!-- 사용자가 앱과 상호 작용할 수 있게 하기 위해 
+        v-on 디렉티브를 사용하여 
+        Vue 인스턴스에서 메소드를 호출하는 
+        이벤트 리스너를 추가 -->
+    <div id="app-5">
+      <p>{{ message }}</p>
+      <button v-on:click="reverseMessage">메시지 뒤집기</button>
+    </div>
+
+    <!-- 양식에 대한 입력과 앱 상태를 
+        양방향으로 바인딩하는 v-model 디렉티브 -->
+    <div id="app-6">
+      <p>{{ message }}</p>
+      <input v-model="message" />
+    </div>
+
+    <!-- 컴포넌트 추가 -->
+    <ol>
+      <!-- todo-item 컴포넌트의 인스턴스 만들기 -->
+      <todo-item></todo-item>
+    </ol>
+
+    <!-- script -->
+    <script src="../src/start.js"></script>
+  </body>
+</html>
