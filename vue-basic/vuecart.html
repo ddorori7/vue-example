@@ -12,6 +12,14 @@
     <!-- 렌더링 영역 -->
     <div id="app">
       <cart-header></cart-header>
+      <div v-show="showAll">
+        <h2>전체 목록</h2>
+        <ul>
+          <li v-for="item in items">{{item.name}}</li>
+        </ul>
+      </div>
+      <shop-list v-bind:shopping-items="items"></shop-list>
+      <cart-input v-bind:cart-input="item"></cart-input>
       <cart-footer></cart-footer>
     </div>
     <script>
@@ -27,9 +35,62 @@
         template: "<p>&copy; Bit Academy</P>",
       });
 
+      //    살 물건들 목록
+      var shopList = {
+        //    props 받아오기
+        props: ["shopping-items"],
+        template: `
+        <div>
+            <h2>살 물건들</h2>
+            <ul>
+                <li v-for="(item, index) in shoppingItems"
+                    v-if="!item.buy">{{item.name}}
+                    <button @click="buyItem(item, index)">구매</button>
+                </li>
+            </ul>
+        </div>`,
+        methods: {
+          buyItem: function (item, index) {
+            console.log("구매할 아이템:", item);
+            item.buy = true;
+          },
+        },
+      };
+
+      //    cart input 컴포넌트
+      var cartInput = {
+        template: `
+        <div>
+            <input v-model="newItem"><button v-on:click="addItem">추가</button>
+        </div>`,
+        data: function () {
+          return {
+            newItem: "",
+          };
+        },
+        methods: {
+          addItem: function () {
+            console.log("추가할 아이템:", this.newItem);
+          },
+        },
+      };
+
       //    Vue 인스턴스
       var app = new Vue({
         el: "#app", // el 속성으로 인해 mount
+        data: {
+          items: [
+            { name: "무", buy: false },
+            { name: "배추", buy: false },
+            { name: "쪽파", buy: true },
+            { name: "고춧가루", buy: true },
+          ],
+          showAll: true,
+        },
+        components: {
+          "shop-list": shopList, // 로컬 컴포넌트 등록
+          "cart-input": cartInput,
+        },
       });
     </script>
   </body>
