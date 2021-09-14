@@ -15,40 +15,49 @@
       <div v-show="showAll">
         <h2>전체 목록</h2>
         <ul>
-          <li v-for="item in items">{{item.name}}</li>
+          <li v-for="item in items">{{ item.name }}</li>
         </ul>
       </div>
       <shop-list v-bind:shopping-items="items"></shop-list>
-      <cart-input v-bind:cart-input="item"></cart-input>
+      <cart-input v-on:add-item="addItem"></cart-input>
+      <input type="checkbox" v-model="showOption" />산 물건 보기
+      <bought-list
+        v-bind:bought-items="items"
+        v-show="showOption"
+        v-on:remove-item="removeItem"
+      ></bought-list>
       <cart-footer></cart-footer>
     </div>
+    <!-- 스크립트 시작 -->
     <script>
-      //  전역 컴포넌트
+      // 전역 컴포넌트
       Vue.component("cart-header", {
-        template: "<h1>{{title}}</h1>",
+        template: "<h1>{{ title }}</h1>",
         data: function () {
-          return { title: "Vue Cart" };
+          return {
+            title: "Vue Cart",
+          };
         },
       });
 
       Vue.component("cart-footer", {
-        template: "<p>&copy; Bit Academy</P>",
+        template: "<p>&copy; Bit Academy</p>",
       });
-
-      //    살 물건들 목록
+      ////////////////////////////////////////////////////////////////
+      //  살 물건들 목록
       var shopList = {
-        //    props 받아오기
+        //  props 받아오기
         props: ["shopping-items"],
         template: `
-        <div>
-            <h2>살 물건들</h2>
-            <ul>
-                <li v-for="(item, index) in shoppingItems"
-                    v-if="!item.buy">{{item.name}}
-                    <button @click="buyItem(item, index)">구매</button>
-                </li>
-            </ul>
-        </div>`,
+            <div>
+                <h2>살 물건들</h2>
+                <ul>
+                    <li v-for="(item, index) in shoppingItems"
+                        v-if="!item.buy">{{item.name}}
+                        <button @click="buyItem(item, index)">구매</button>
+                    </li>
+                </ul>
+            </div>`,
         methods: {
           buyItem: function (item, index) {
             console.log("구매할 아이템:", item);
@@ -57,12 +66,39 @@
         },
       };
 
-      //    cart input 컴포넌트
+      //  산 물건 목록
+      var boughtList = {
+        props: ["bought-items"],
+        template: `
+            <div>
+                <h2>산 물건들</h2>
+                <ul>
+                    <li v-for="(item, index) in boughtItems"
+                        v-if="item.buy">{{ item.name }}
+                        <button v-on:click="removeItem(item)">삭제</button>
+                        <button v-on:click="cancelBuy(item)">구매 취소</button>
+                    </li>
+                </ul>
+            </div>`,
+        methods: {
+          cancelBuy: function (item) {
+            item.buy = false;
+          },
+          removeItem: function (item) {
+            //  부모로 삭제할 아이템을 전송
+            console.log("삭제할 아이템:", item);
+            this.$emit("remove-item", item);
+          },
+        },
+      };
+
+      //  cart input 컴포넌트
       var cartInput = {
         template: `
-        <div>
-            <input v-model="newItem"><button v-on:click="addItem">추가</button>
-        </div>`,
+            <div>
+                <input v-model="newItem">
+                <button v-on:click="addItem">추가</button>
+            </div>`,
         data: function () {
           return {
             newItem: "",
@@ -71,13 +107,19 @@
         methods: {
           addItem: function () {
             console.log("추가할 아이템:", this.newItem);
+            if (this.newItem.trim().length > 0) {
+              //  구매 아이템을 부모로 전송
+              this.$emit("add-item", this.newItem.trim());
+              this.newItem = "";
+            }
           },
         },
       };
 
-      //    Vue 인스턴스
+      /////////////////////////////////////////////////////////////
+      //  Vue 인스턴스
       var app = new Vue({
-        el: "#app", // el 속성으로 인해 mount
+        el: "#app",
         data: {
           items: [
             { name: "무", buy: false },
@@ -85,11 +127,31 @@
             { name: "쪽파", buy: true },
             { name: "고춧가루", buy: true },
           ],
-          showAll: true,
+          showAll: false,
+          showOption: true,
         },
         components: {
-          "shop-list": shopList, // 로컬 컴포넌트 등록
+          "shop-list": shopList,
           "cart-input": cartInput,
+          "bought-list": boughtList,
+        },
+        methods: {
+          addItem: function (item) {
+            console.log("추가할 아이템:", item);
+            //  배열에 아이템 추가
+            this.items.push({
+              name: item,
+              buy: false,
+            });
+          },
+          removeItem: function (item) {
+            var index = this.items.indexOf(item);
+            if (index > -1) {
+              //  인덱스
+              //  배열에서 요소 삭제
+              this.items.splice(index, 1);
+            }
+          },
         },
       });
     </script>

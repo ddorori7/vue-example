@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixar Movies</title>
+    <!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      .movie {
+        min-height: 100px;
+        padding: 10px;
+      }
+      .movie:nth-child(2n) {
+        background-color: rgba(127, 127, 127, 0.1);
+      }
+      .movie:nth-child(2n + 1) {
+        background-color: rgba(127, 0, 0, 0.1);
+      }
+      .movie img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        float: left;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pixar Movies</h1>
+    <!-- 렌더링 영역 -->
+    <div id="app">
+      <!-- loop 렌더링 -->
+      <div class="movie" v-for="movie in movies">
+        <img v-bind:src="'http://localhost:3000/images/' + movie.image" />
+        <h2>{{ movie.title }}</h2>
+        <p>감독: {{ movie.director }}</p>
+        <p>개봉년도: {{ movie.year }}</p>
+      </div>
+    </div>
+
+    <script>
+      /*
+        var movies = [];
+        axios.get("http://localhost:3000/movies")
+        .then(response => {
+            //  요청 성공
+            console.log(response);
+            //  영화 목록 데이터
+            console.log(response.data.movies);
+        })
+        .catch(reason => {
+            console.log(reason);
+        })
+        */
+      var app = new Vue({
+        el: "#app", //   템플릿
+        data: {
+          movies: [], //  모델로 사용할 데이터
+        },
+        created: function () {
+          //   서버로부터 데이터를 받아오기 좋은 시점: created
+          console.log("API 서버로부터 영화 정보를 받아옵니다.");
+          axios
+            .get("http://localhost:3000/movies")
+            .then((response) => {
+              console.log("RESPONSE:", response);
+              console.log("Movie data:", response.data.movies);
+              this.movies = response.data.movies;
+            })
+            .catch((reason) => {
+              console.error(reason);
+            });
+        },
+        mounted: function () {
+          console.log("mounted:", this.movies);
+        },
+        updated: function () {
+          console.log("updated:", this.movies);
+        },
+      });
+    </script>
+  </body>
+</html>
