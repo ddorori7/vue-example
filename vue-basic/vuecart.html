@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Cart</title>
+    <!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <!-- 렌더링 영역 -->
+    <div id="app">
+      <cart-header></cart-header>
+      <cart-footer></cart-footer>
+    </div>
+    <script>
+      //  전역 컴포넌트
+      Vue.component("cart-header", {
+        template: "<h1>{{title}}</h1>",
+        data: function () {
+          return { title: "Vue Cart" };
+        },
+      });
+
+      Vue.component("cart-footer", {
+        template: "<p>&copy; Bit Academy</P>",
+      });
+
+      //    Vue 인스턴스
+      var app = new Vue({
+        el: "#app", // el 속성으로 인해 mount
+      });
+    </script>
+  </body>
+</html>
