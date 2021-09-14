@@ -59,9 +59,10 @@
                 </ul>
             </div>`,
         methods: {
+          //  구매버튼 누르면 buyItem 메소드 실행
           buyItem: function (item, index) {
             console.log("구매할 아이템:", item);
-            item.buy = true;
+            item.buy = true; // true 로 바꾸면 살 물건들 목록에서 사라짐
           },
         },
       };
