@@ -17,7 +17,11 @@
       <!-- 제출 이벤트가 페이지를 다시 로드 하지 않습니다(.prevent) 
       <form v-on:submit.prevent="onSubmit"></form> -->
       <form v-on:submit.prevent="handleSubmit">
-        <input type="text" /><br />
+        <!-- @이벤트명="메소드명" = v-on:이벤트명="메소드명" -->
+        <!-- <input type="text" :value="text" @keyup="updateText" /><br /> -->
+        <!-- 양방향 바인딩 v-model -->
+        <input type="text" v-model="text" /><br />
+        {{ text }}<br />
         <button type="submit">Submit</button>
       </form>
     </div>
@@ -26,6 +30,7 @@
         el: "#app",
         data: {
           year: 2021,
+          text: "text",
         },
         methods: {
           plus() {
@@ -39,6 +44,10 @@
             console.log("이벤트 수식어 .prevent 가 없으면 금방 사라져버려~");
             // https://kr.vuejs.org/v2/guide/events.html 참고
           },
+          //   updateText(event) {
+          //     console.log(event);
+          //     this.text = event.target.value;
+          //   }, -> 양방향 바인딩일때 필요 없어짐 ㅇ.ㅇ
         },
       });
     </script>
