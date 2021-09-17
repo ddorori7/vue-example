@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>뷰 기초 익히기</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>{{ year }}</p>
+      <button v-on:click="plus()">더하기</button>
+      <button v-on:click="minus()">빼기</button>
+      <br />
+      <!-- 제출 이벤트가 페이지를 다시 로드 하지 않습니다(.prevent) 
+      <form v-on:submit.prevent="onSubmit"></form> -->
+      <form v-on:submit.prevent="handleSubmit">
+        <input type="text" /><br />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          year: 2021,
+        },
+        methods: {
+          plus() {
+            return this.year++;
+          },
+          minus() {
+            return this.year--;
+          },
+          handleSubmit() {
+            alert("제출!");
+            console.log("이벤트 수식어 .prevent 가 없으면 금방 사라져버려~");
+            // https://kr.vuejs.org/v2/guide/events.html 참고
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
