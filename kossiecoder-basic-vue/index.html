@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>뷰 기초 익히기</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      {{"함수호출: " + nextYear("안녕")}}<br />
+      {{ "person객체 데이터 값 불러오기: " + person.name + person.age }}
+      <!-- v-bind:속성="값" => 속성값과 연결 
+            :속성="값" 으로 축약가능! -->
+      <input :type="type" v-bind:value="inputData" />
+      <a :href="link">유투브</a>
+      <a :href="getKossieCoderLink('kossiecoder')">코지코더 채널 링크</a>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          person: {
+            // data안의 객체
+            name: "서지원",
+            age: 27,
+          },
+          inputData: "hello",
+          type: "text",
+          link: "http://www.youtube.com/",
+        },
+        methods: {
+          getKossieCoderLink(channel) {
+            return this.link + channel;
+          },
+          nextYear(greeting) {
+            // 함수 축약형
+            return (
+              greeting +
+              "!" +
+              this.person.name +
+              "은 " +
+              this.person.age +
+              "살 입니다."
+            );
+          },
+          otherMethod: function () {
+            this.nextYear(); // this로 함수 호출가능
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
