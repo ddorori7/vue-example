@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>뷰 기초 익히기-3</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <form @submit.prevent="changeText">
+        <!-- input에 입력된 값을 changeText메소드를 이용해 
+          바꾸기 위해 임시 tempText 변수 활용 -->
+        <input type="text" v-model="tempText" />
+        <button type="submit">텍스트 바뀜 버튼</button><br />
+      </form>
+      {{ "바로 찍기: " + innerText.split("").reverse().join("") }}<br />
+      {{ "computed 활용: " + reversedTextComputed }}
+      <br />
+      {{ "메소드 활용: " + reversedTextMethod() }}<br />
+
+      <div>------------------------------</div>
+      <button @click="changeMsg">메시지 바뀜 버튼</button><br />
+      {{ "바로 찍기: " + message.split("").reverse().join("") }}<br />
+      {{ "computed 활용: " + reversedMsgComputed }}
+      <br />
+      {{ "메소드 활용: " + reversedMsgMethod() }}<br />
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          message: "안녕하세요?",
+          tempText: "텍스트",
+          innerText: "텍스트",
+        },
+        methods: {
+          // 호출할 때마다 계산
+          reversedMsgMethod() {
+            return this.message.split("").reverse().join("");
+          },
+          reversedTextMethod() {
+            return this.innerText.split("").reverse().join("");
+          },
+          changeMsg() {
+            return (this.message = "메시지가 바뀜여!");
+          },
+          changeText() {
+            // input에 입력된 값을 changeText메소드를 이용해
+            // 바꾸기 위해 임시 tempText 변수 활용
+            this.innerText = this.tempText;
+          },
+        },
+        computed: {
+          // 미리 계산되어 캐시에 저장 -> 한번 계산되면 계속 사용
+          // 값이 변경될때만 캐치해서 다시 계산
+          reversedMsgComputed() {
+            return this.message.split("").reverse().join("");
+          },
+          reversedTextComputed() {
+            return this.innerText.split("").reverse().join("");
+          },
+        },
+        // <method를 활용했을 때와 computed 속성을 활용했을 때의 차이점>
+        // 결과적으로 두 가지 접근 방식은 실제로 완전히 동일합니다.
+        // 그러나 차이점은 계산된 속성이 반응 종속성을 기반으로 캐시 된다는 것 입니다.
+        // 계산된 속성은 반응 종속성 중 일부가 변경된 경우에만 재평가됩니다.
+        // 즉 message, 변경되지 않은 한 reversedMsgComputed계산된 속성에 대한 다중 액세스는
+        // 함수를 다시 실행할 필요 없이 이전에 계산된 결과를 즉시 반환합니다.
+        // 이에 비해 메서드 호출은 재렌더링이 발생할 때마다 항상 함수를 실행합니다.
+        // 캐싱이 필요한 이유는 무엇입니까?
+        // 거대한 배열을 반복하고 많은 계산을 수행 해야 하는 값비싼 계산 속성 A 가 있다고 상상해 보십시오.
+        // 그러면 A 에 의존하는 다른 계산된 속성이 있을 수 있습니다.
+        // 캐싱이 없으면 A 의 getter를 필요한 것보다 훨씬 더 많이 실행할 것입니다!
+        // 캐싱을 원하지 않는 경우 대신 메소드를 사용하십시오.
+      });
+    </script>
+  </body>
+</html>
