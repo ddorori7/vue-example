@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>뷰 기초 익히기-4</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      {{message}}<br />
+      <button @click="changeMassage">click</button><br />
+      {{updated}}
+    </div>
+
+    <!-- vue 공식문서 예제 + 추가 -->
+    <div id="demo">
+      <input type="text" v-model="firstName" />{{firstName}}<br />
+      <input type="text" v-model="lastName" />{{lastName}}<br />
+      {{"fullName: " + fullName }}
+    </div>
+
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          message: "헬로우",
+          updated: "아니요",
+        },
+        methods: {
+          changeMassage() {
+            this.message = "코지코더";
+          },
+        },
+        computed: {
+          reversedMassage() {
+            return this.message.split("").reverse().join("");
+          },
+        },
+        //   computed 속성 vs watch 속성
+        //  Vue 인스턴스의 데이터 변경을 관찰하고 이에 반응하는 보다 일반적인 watch 속성
+        //  다른 데이터 기반으로 변경할 필요가 있는 데이터가 있는 경우
+        // 하지만 명령적인 watch 콜백보다 computed 속성을 사용하는 것이 더 좋습니다.
+        // watch 속성은 감시할 데이터를 지정하고
+        // 그 데이터가 바뀌면 이런 함수를 실행하라는 방식으로
+        // 소프트웨어 공학에서 이야기하는 ‘명령형 프로그래밍’ 방식.//
+        // computed 속성은 계산해야 하는 목표 데이터를 정의하는 방식으로
+        // 소프트웨어 공학에서 이야기하는 ‘선언형 프로그래밍’ 방식.//
+        watch: {
+          // computed 속성이 안될때 watch 속성 활용
+          message(newVal, oldVal) {
+            console.log(newVal, oldVal);
+            this.updated = "네";
+          },
+        },
+      });
+
+      // vue 공식문서 예제
+      // watch -> 명령형 방식
+      //   var vm = new Vue({
+      //     el: "#demo",
+      //     data: {
+      //       firstName: "Foo",
+      //       lastName: "Bar",
+      //       fullName: "Foo Bar",
+      //     },
+      //     watch: {
+      //       firstName: function (val) {
+      //         this.fullName = val + " " + this.lastName;
+      //       },
+      //       lastName: function (val) {
+      //         this.fullName = this.firstName + " " + val;
+      //       },
+      //     },
+      //   });
+
+      // computed -> 선언형 방식
+      var vm = new Vue({
+        el: "#demo",
+        data: {
+          firstName: "Foo",
+          lastName: "Bar",
+        },
+        computed: {
+          fullName: function () {
+            return this.firstName + " " + this.lastName;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
