@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>뷰 기초 익히기-5</title>
+    <style>
+      .red {
+        color: red;
+      }
+
+      .font-bold {
+        font-weight: bold;
+      }
+    </style>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div :class="{ red: isRed, 'font-bold': isBold }">hello class</div>
+      <div :class="classObj">hello classObject</div>
+      <button @click="update">click</button>
+      <div :style="{ color: red, fontSize: size}">hello style</div>
+      <div :style="styleObj">hello styleObject</div>
+    </div>
+
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          isRed: false,
+          isBold: false,
+          red: "red",
+          size: "30px",
+          styleObj: {
+            color: "green",
+            fontSize: "50px",
+            fontWeight: "bold",
+          },
+          classObj: {
+            red: false,
+            "font-bold": false,
+          },
+        },
+        methods: {
+          update() {
+            this.isRed = !this.isRed;
+            this.isBold = !this.isBold;
+            this.classObj.red = !this.classObj.red;
+            this.classObj["font-bold"] = !this.classObj["font-bold"];
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
