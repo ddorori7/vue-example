@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>뷰 기초 익히기-6</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>v-if v-else 예시</h2>
+      <div v-if="show">v-if="true" 일때만 보입니다(렌더링!)</div>
+      <template v-if="show">
+        <div>템플릿 태그안에 넣어주면</div>
+        <div>여러개를 동시에</div>
+        <div>v-if로 묶어서 보여줄수 있습니다.</div>
+      </template>
+      <div v-else="show">v-else="false" 일때만 보입니다(렌더링!)</div>
+      <br />
+      <button @click="changeBoolean">boolean 체인지!</button>
+      <div>--------------------------------------</div>
+      <h2>v-if v-else-if v-else 예시</h2>
+      <template v-if="number === 1">
+        <p>number === 1 일때!</p>
+      </template>
+      <p v-else-if="number===2">v-else-if="number가 2일때!"</p>
+      <p v-else>number가 1도 2도 아닙니다.</p>
+      <button @click="addNumber">number가 늘어납니다.</button>
+      <button @click="minusNumber">number가 줄어듭니다.</button>
+      <p>{{ "number: " + number }}</p>
+      <div>--------------------------------------</div>
+      <h2>v-show 예시</h2>
+      <p v-show="show">v-show가 true</p>
+      <button @click="changeBoolean">show!</button>
+    </div>
+
+    <!-- 
+    [ v-if 대 v-show ] 
+
+    v-if는 "실제" 조건부 렌더링입니다. 
+    왜냐하면 조건부 블록 내부의 이벤트 리스너와 자식 구성 요소가 
+    토글 중에 적절히 파괴되고 다시 생성되도록 보장하기 때문입니다.
+    
+    v-if도 게으름: 초기 렌더링 시 조건이 false이면 아무 작업도 수행하지 않습니다. 
+                    조건 블록은 조건이 처음으로 true가 될 때까지 렌더링되지 않습니다.
+    
+    이에 비해 v-show훨씬 간단합니다. 
+    CSS 기반 토글을 사용하여 초기 조건에 관계없이 요소가 항상 렌더링됩니다.
+
+    일반적으로 v-if는 토글 비용이 더 높고 
+    v-show는 초기 렌더링 비용이 더 높습니다. 
+    따라서 매우 자주 토글해야 하는 경우 v-show를 선호하고
+    런타임 시 조건이 변경되지 않을 경우 v-if를 선호합니다.
+-->
+
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          show: false,
+          number: 1,
+        },
+        methods: {
+          changeBoolean() {
+            this.show = !this.show;
+          },
+          addNumber() {
+            this.number++;
+          },
+          minusNumber() {
+            this.number--;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
