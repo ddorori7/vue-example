@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>뷰 기초 익히기-7</title>
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div>{{people[0].name}} 은 {{people[0].age}} 살!</div>
+    <div>{{people[1].name}} 은 {{people[1].age}} 살!</div>
+    <div>{{people[2].name}} 은 {{people[2].age}} 살!</div>
+    <div>{{people[3].name}} 은 {{people[3].age}} 살!</div>
+
+    <hr>
+    <div v-for="(person, index) in people" :key="person.id">
+      <!-- key는 고유한 값일 수 있게 만든다! -->
+      {{index+1}}. {{person.name}} 은 {{person.age}} 살!
+    </div>
+  </div>
+
+  <!-- v-for를 이용하여 객체속성도 반복가능 -->
+  <ul id="v-for-object" class="demo">
+    <li v-for="value in object">
+      {{ value }}
+    </li>
+    <div>-------------------------------</div>
+    <li v-for="(value, name) in object">
+      {{ name }}: {{ value }}
+    </li>
+    <div>-------------------------------</div>
+    <li v-for="(value, name, index) in object">
+      {{ index }}. {{ name }}: {{ value }}
+    </li>
+  </ul>
+
+
+
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        people: [{
+            id: 1,
+            name: "a",
+            age: 20
+          },
+          {
+            id: 2,
+            name: "b",
+            age: 21
+          },
+          {
+            id: 3,
+            name: "c",
+            age: 22
+          },
+          {
+            id: 4,
+            name: "c",
+            age: 23
+          },
+          {
+            id: 5,
+            name: "e",
+            age: 24
+          },
+        ]
+
+      },
+      methods: {},
+    })
+
+
+    new Vue({
+      el: '#v-for-object',
+      data: {
+        object: {
+          title: 'How to do lists in Vue',
+          author: 'Jane Doe',
+          publishedAt: '2016-04-10'
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
