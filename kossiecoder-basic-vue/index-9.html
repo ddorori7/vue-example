@@ -26,21 +26,51 @@
     <!-- {{name}}<br>
     <button @click="changeText">Click</button> -->
 
-    <hr>
+    <!-- <hr> -->
     <!-- 컴포넌트 사용 -->
     <jiwon-button></jiwon-button>
 
   </div>
   <!-- 현재 app과 app-1이 동일! -> 재사용을 위해 컴포넌트 선언! -->
   <script>
-    // 컴포넌트 안에서 컴포넌트 사용
-    Vue.component('hello-world', {
-      template: `<div>hello world</div>`,
-    })
+    // 전역 컴포넌트(재사용을 위해)--------------------------------------
 
-    // 전역 컴포넌트(재사용을 위해)
-    Vue.component('jiwon-button', {
-      // 템플릿은 하나의 태그 안에 넣어줘야 한다.그래서 큰 div로 묶어줌
+    // 컴포넌트 안에서 컴포넌트 사용
+    // Vue.component('hello-world', {
+    //   template: `<div>hello world</div>`,
+    // })
+
+    // Vue.component('jiwon-button', {
+    //   // 템플릿은 하나의 태그 안에 넣어줘야 한다.그래서 큰 div로 묶어줌
+    //   template: ` 
+    //   <div>
+    //     {{name}}<br>
+    //     <hello-world></hello-world>
+    //     <button @click="changeText">Click</button>
+    //   </div>`,
+    //   data() { // 컴포넌트를 만들때는 데이터를 함수로 만들어서 오브젝트를 리턴!
+    //     return {
+    //       name: "지원"
+    //     }
+    //   },
+    //   methods: {
+    //     changeText() {
+    //       this.name = "지원 업데이트!-전역!"
+    //     }
+    //   },
+    // });
+    // ---------------------------전역 컴포넌트 끝!
+
+    // 지역 컴포넌트!
+    const HelloWorld = {
+      template: `<div>hello world</div>`,
+    }
+
+    const jiwonButton = {
+      components: {
+        // 지역 컴포넌트 안에 지역 컴포넌트 등록!
+        'hello-world': HelloWorld
+      },
       template: ` 
       <div>
         {{name}}<br>
@@ -54,14 +84,19 @@
       },
       methods: {
         changeText() {
-          this.name = "지원 업데이트!-전역!"
+          this.name = "지원 업데이트!-지역!"
         }
       },
-    });
-
+    }
 
     const app = new Vue({
       el: "#app",
+      // 지역 컴포넌트 사용시!
+      // 아래와 같이 작성
+      components: {
+        'jiwon-button': jiwonButton
+        //'태그명': 지역 컴포넌트 오브젝트
+      },
       // data: {
       //   name: "지원"
       // },
@@ -74,6 +109,10 @@
 
     const app1 = new Vue({
       el: "#app-1",
+      components: {
+        'jiwon-button': jiwonButton
+        //'태그명': 지역 컴포넌트 오브젝트
+      },
       // data: {
       //   name: "지원"
       // },
