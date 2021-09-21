@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>뷰 기초 익히기-9</title>
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- {{name}}<br>
+    <button @click="changeText">Click</button> -->
+
+    <hr>
+    <!-- 컴포넌트 사용 -->
+    <jiwon-button></jiwon-button>
+
+  </div>
+  <hr>
+  <hr>
+  <div id="app-1">
+    <!-- {{name}}<br>
+    <button @click="changeText">Click</button> -->
+
+    <hr>
+    <!-- 컴포넌트 사용 -->
+    <jiwon-button></jiwon-button>
+
+  </div>
+  <!-- 현재 app과 app-1이 동일! -> 재사용을 위해 컴포넌트 선언! -->
+  <script>
+    // 컴포넌트 안에서 컴포넌트 사용
+    Vue.component('hello-world', {
+      template: `<div>hello world</div>`,
+    })
+
+    // 전역 컴포넌트(재사용을 위해)
+    Vue.component('jiwon-button', {
+      // 템플릿은 하나의 태그 안에 넣어줘야 한다.그래서 큰 div로 묶어줌
+      template: ` 
+      <div>
+        {{name}}<br>
+        <hello-world></hello-world>
+        <button @click="changeText">Click</button>
+      </div>`,
+      data() { // 컴포넌트를 만들때는 데이터를 함수로 만들어서 오브젝트를 리턴!
+        return {
+          name: "지원"
+        }
+      },
+      methods: {
+        changeText() {
+          this.name = "지원 업데이트!-전역!"
+        }
+      },
+    });
+
+
+    const app = new Vue({
+      el: "#app",
+      // data: {
+      //   name: "지원"
+      // },
+      // methods: {
+      //   changeText() {
+      //     this.name = "지원 업데이트!"
+      //   }
+      // },
+    });
+
+    const app1 = new Vue({
+      el: "#app-1",
+      // data: {
+      //   name: "지원"
+      // },
+      // methods: {
+      //   changeText() {
+      //     this.name = "지원 업데이트!"
+      //   },
+      // },
+    });
+  </script>
+</body>
+
+</html>
