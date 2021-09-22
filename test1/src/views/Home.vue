@@ -1,18 +1,32 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
+  <div>
+    <h1>This is Home page</h1>
+    <p>{{ name }}</p>
+    <p>views 폴더는 페이지 컴포넌트</p>
+    <p>더 만들고 싶으면 더 쪼개서 components폴더에!</p>
+    <p>컴포넌트 불러와서 사용</p>
+    <jiwon /></div
+></template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+// 컴포넌트 불러와서 사용!
+// @는 src 소스를 가리킴
+import jiwon from "@/components/jiwon.vue";
 
 export default {
-  name: 'Home',
   components: {
-    HelloWorld
-  }
-}
+    jiwon,
+  },
+  data() {
+    return {
+      name: "jiwon",
+    };
+  },
+};
 </script>
+
+<style scoped>
+h1 {
+  color: red;
+}
+</style>
