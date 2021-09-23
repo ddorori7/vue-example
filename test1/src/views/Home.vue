@@ -5,7 +5,8 @@
     <p>views 폴더는 페이지 컴포넌트</p>
     <p>더 만들고 싶으면 더 쪼개서 components폴더에!</p>
     <p>컴포넌트 불러와서 사용</p>
-    <jiwon /></div
+    <!-- jiwon.vue에서 props로 보낸 타이틀을 속성으로 사용! -->
+    <jiwon name="ddorori7" /></div
 ></template>
 
 <script>
