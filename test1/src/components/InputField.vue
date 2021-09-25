@@ -8,12 +8,19 @@
     red;"
       @input="updateName"
     /> -->
-    <input
+    <!-- <input
       type="text"
       :value="name"
       style="padding: 30px; border: 2px solid
     red;"
       @input="$emit('update-name', $event)"
+    /> -->
+    <input
+      type="text"
+      :value="value"
+      style="padding: 30px; border: 2px solid
+    red;"
+      @input="$emit('input', $event.target.value)"
     />
   </div>
 </template>
@@ -22,6 +29,10 @@
 export default {
   props: {
     name: {
+      type: String,
+      required: true,
+    },
+    value: {
       type: String,
       required: true,
     },

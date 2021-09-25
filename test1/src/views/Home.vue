@@ -11,7 +11,9 @@
     <h2>부모 컴포넌트로 데이터 보내기</h2>
     <form action="">
       <!-- <InputField :name="name" @update-name="updateName" /> -->
-      <InputField :name="name" @update-name="name = $event.target.value" />
+      <!-- <InputField :name="name" @update-name="name = $event.target.value" /> -->
+      <InputField v-model="name" />
+      <!-- 컴포넌트에 v-model="name"을 넣어주면 자동으로 value 값을 보내줌(InputField로) -->
       <br />
       <button>submit</button>
     </form>
@@ -35,11 +37,11 @@ export default {
       name: "",
     };
   },
-  methods: {
-    updateName(name) {
-      this.name = name;
-    },
-  },
+  // methods: {
+  //   updateName(name) {
+  //     this.name = name;
+  //   },
+  // },
 };
 </script>
 
