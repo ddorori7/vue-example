@@ -15,7 +15,7 @@
       <InputField v-model="name" />
       <!-- 컴포넌트에 v-model="name"을 넣어주면 자동으로 value 값을 보내줌(InputField로) -->
       <br />
-      <button>submit</button>
+      <button @click="updateName">submit</button>
     </form>
     {{ name }}
   </div>
@@ -34,14 +34,45 @@ export default {
   },
   data() {
     return {
-      name: "",
+      name: "kossie coder",
     };
   },
-  // methods: {
-  //   updateName(name) {
-  //     this.name = name;
-  //   },
-  // },
+  beforeCreate() {
+    console.log("beforeCreate", this.name);
+    // beforeCreate undefined
+  },
+  created() {
+    console.log("created", this.name);
+    // created kossie coder
+  },
+  beforeMount() {
+    alert("beforeMount");
+  },
+  mounted() {
+    alert("mounted");
+    // 여기서부터 화면에 접근 가능(DOM이 mounted되면서)
+  },
+  beforeUpdate() {
+    alert("beforeUpdate");
+  },
+  updated() {
+    alert("updated");
+  },
+  beforeDestroy() {
+    alert("beforeDestroy");
+  },
+  destroyed() {
+    alert("destroyed");
+  },
+
+  methods: {
+    // updateName(name) {
+    //   this.name = name;
+    // },
+    updateName() {
+      this.name = "hello";
+    },
+  },
 };
 </script>
 
