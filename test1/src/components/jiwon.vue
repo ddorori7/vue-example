@@ -1,11 +1,20 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
-    <p>{{ name }}</p>
-    <br />
-    <button @click="updateName">업데이트</button>
-  </div></template
->
+    <p>header</p>
+    <!-- <h1>{{ title }}</h1> -->
+    <slot name="header" :kossie="kossie"></slot>
+
+    <p>body</p>
+    <!-- <p>{{ name }}</p> -->
+    <!-- <br /> -->
+    <slot></slot>
+    <!-- <button @click="updateName">업데이트</button> -->
+
+    <p>footer</p>
+    <slot name="footer" :kossie="kossie"></slot>
+  </div>
+</template>
+
 <script>
 export default {
   // 화면마다 다른 값을 주기위해 props로 title을 보내줄 때 사용
@@ -24,6 +33,7 @@ export default {
   },
   data() {
     return {
+      kossie: "coder",
       // name: "ddorori7",
       // props에서 사용한 것은 data()에서 사용 x
     };
